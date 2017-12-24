@@ -1,0 +1,106 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Read the WHO.csv file into variable who.
+head(who) gives the first six rows in the csv file
+```{r}
+who <- read.csv("C:/DataAnalysis/WHO.csv")
+head(who)
+```
+
+get the summary of the percentage of population under15
+```{r}
+summary(who$Under15)
+```
+
+Let us analyze which country has got min percentage of population. 
+For this we will be using the which command that returns the row number of the observation with min population under15
+```{r}
+which.min(who$Under15)
+```
+
+to see which country is in row 86
+japan is the country with min population under15
+```{r}
+who$Country[86]
+```
+
+Let us analyze which country has got max percentage of population
+use which command that returns the row number of the observation with max population under15.
+```{r}
+which.max(who$Under15)
+```
+
+to see which country is in row 124
+niger is the country with max population under15
+```{r}
+who$Country[124]
+```
+
+plot between GNI vs FertilityRate
+```{r}
+plot(who$GNI,who$FertilityRate)
+```
+
+create a subset with conditions where GNI > 10000 and FertilityRate > 2.5
+```{r}
+outliers = subset(who, GNI > 10000 & FertilityRate >2.5)
+nrow(outliers)
+```
+
+To view the rows in subset outliers
+
+```{r}
+outliers[c("Country","GNI","FertilityRate")]
+```
+What is the mean value of the "Over60" variable?
+```{r}
+mean(who$Over60)
+```
+
+Which country has the smallest percentage of the population over 60?
+Which country has the largest literacy rate?
+```{r}
+which.min(who$Over60)
+```
+```{r}
+who$Country[183]
+```
+
+Which country has the largest literacy rate?
+```{r}
+summary(who$LiteracyRate)
+which.max(who$LiteracyRate)
+who$Country[44]
+```
+
+tapply is a command used to compute mathematical calculations like min,max,avg,mean.
+tapply is used when there are two variables, one numerical variable and one categorical variable.
+```{r}
+tapply(who$Over60,who$Region,mean)
+
+```
+
+```{r}
+tapply(who$LiteracyRate, who$Region,min)
+```
+
+Here, we have got NA values that means some of the values are missing.
+To remove NA values
+```{r}
+tapply(who$LiteracyRate, who$Region,min, na.rm = TRUE)
+```
+
+Which region has the lowest average child mortality rate across
+all countries in that region?
+
+```{r}
+tapply(who$ChildMortality, who$Region,min)
+
+```
+
+Europe has the lowest average child mortality rate.
